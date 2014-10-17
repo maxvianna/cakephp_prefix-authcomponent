@@ -36,12 +36,15 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		echo $this->fetch('css');
 		echo $this->fetch('script');
 	?>
+	<style type="text/css">	.menu-superior ul { list-style: none; margin-bottom: 1em; font-size: 20px; font-weight: bold; }	.menu-superior li { display: inline-block; margin-right: .5em }	.menu-superior a { color: #E32; text-decoration: none }
+	</style>
 </head>
 <body>
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
 		</div>
+		<?php echo $this->element('menu', array('class' => 'menu-superior')) ?>
 		<div id="content">
 
 			<?php echo $this->Session->flash(); ?>
