@@ -4,12 +4,12 @@
       public $uses = 'Post';
       public $name = 'Posts';
 
-      public function index()
+      public function admin_index()
       {
          $this->set('posts', $this->Post->find('all'));
       }
 
-      public function adicionar()
+      public function admin_adicionar()
       {
          if($this->request->is('post'))
          {
@@ -23,7 +23,7 @@
          }
       }
 
-      public function editar($id = NULL)
+      public function admin_editar($id = NULL)
       {
          $this->Post->id = $id;
          if(!$this->Post->exists())
@@ -45,7 +45,7 @@
          }
       }
 
-      public function deletar($id = NULL)
+      public function admin_deletar($id = NULL)
       {
          if($this->request->is('get'))
          {

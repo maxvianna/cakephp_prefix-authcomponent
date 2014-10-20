@@ -4,12 +4,12 @@
       public $uses = 'User';
       public $name = 'Users';
 
-      public function index()
+      public function admin_index()
       {
          $this->set('users', $this->User->find('all'));
       }
 
-      public function adicionar()
+      public function admin_adicionar()
       {
          if($this->request->is('post'))
          {
@@ -23,7 +23,7 @@
          }
       }
 
-      public function editar($id = NULL)
+      public function admin_editar($id = NULL)
       {
          $this->User->id = $id;
          if(!$this->User->exists())
@@ -46,7 +46,7 @@
          }
       }
 
-      public function deletar($id = NULL)
+      public function admin_deletar($id = NULL)
       {
          if($this->request->is('get'))
          {
@@ -70,43 +70,43 @@
       }
 
       public function beforeFilter()
-		{
-		   parent::beforeFilter();
-		   $this->Auth->allow('login', 'adicionar');       
-		}
+      {
+         parent::beforeFilter();
+         $this->Auth->allow('admin_login', 'admin_adicionar');       
+      }
 
-		public function isAuthorized($user)
-		{
-		   if($user['role'] == 'admin')
-		   {
-		      return TRUE;
-		   }
-		   if(in_array($this->action, array('edit', 'delete')))
-		   {
-		      if($user['id'] != $this->request->params['pass'][0])
-		      {
-		         return FALSE;
-		      }
-		   }
-		   return TRUE;
-		}
+      public function isAuthorized($user)
+      {
+         if($user['role'] == 'admin')
+         {
+            return TRUE;
+         }
+         if(in_array($this->action, array('edit', 'delete')))
+         {
+            if($user['id'] != $this->request->params['pass'][0])
+            {
+               return FALSE;
+            }
+         }
+         return TRUE;
+      }
 
-		public function login()
-		{
-		   if($this->request->is('post'))
-		   {
-		      if($this->Auth->login())
-		      {
-		         $this->redirect($this->Auth->redirect());
-		      } else {
-		         $this->Session->setFlash('Your username/password was incorrect');
-		      }
-		   }
-		}
+      public function admin_login()
+      {
+         if($this->request->is('post'))
+         {
+            if($this->Auth->login())
+            {
+               $this->redirect($this->Auth->redirect());
+            } else {
+               $this->Session->setFlash('Your username/password was incorrect');
+            }
+         }
+      }
 
-		public function logout()
-		{
-		   $this->redirect($this->Auth->logout());
-		}
+      public function admin_logout()
+      {
+         $this->redirect($this->Auth->logout());
+      }
    }
 ?>

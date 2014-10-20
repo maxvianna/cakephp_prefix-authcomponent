@@ -35,8 +35,8 @@ class AppController extends Controller {
 	public $components = array(
 		'Session',
 		'Auth' => array(
-			'loginRedirect' => array('controller' => 'users', 'action' => 'index'),
-			'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+			'loginRedirect' => array('controller' => 'users', 'action' => 'admin_index'),
+			'logoutRedirect' => array('controller' => 'users', 'action' => 'admin_login'),
 			'authError' => 'You can´t access that page',
 			'authorize' => array('Controller')
 		)
@@ -48,9 +48,19 @@ class AppController extends Controller {
 	}
 	
 	public function beforeFilter()
-	{
-		$this->Auth->allow('login');
+	{	
+		if (!$this->isPrefix('admin')) {
+			$this->Auth->allow();
+		} else {
+			$this->Auth->allow('admin_login');
+			$this->layout = 'admin_default';
+		}
 		$this->set('logged_in', $this->Auth->loggedIn());
 		$this->set('current_user', $this->Auth->user());
+	}
+
+	public function isPrefix($prefix)
+	{
+		return isset($this->request->params['prefix']) && $this->request->params['prefix'] == $prefix;
 	}
 }
