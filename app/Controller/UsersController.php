@@ -68,5 +68,45 @@
       $this->Session->setFlash('Usuário não foi deletado');
       $this->redirect(array('action' => 'index'));
       }
+
+      public function beforeFilter()
+		{
+		   parent::beforeFilter();
+		   $this->Auth->allow('login', 'adicionar');       
+		}
+
+		public function isAuthorized($user)
+		{
+		   if($user['role'] == 'admin')
+		   {
+		      return TRUE;
+		   }
+		   if(in_array($this->action, array('edit', 'delete')))
+		   {
+		      if($user['id'] != $this->request->params['pass'][0])
+		      {
+		         return FALSE;
+		      }
+		   }
+		   return TRUE;
+		}
+
+		public function login()
+		{
+		   if($this->request->is('post'))
+		   {
+		      if($this->Auth->login())
+		      {
+		         $this->redirect($this->Auth->redirect());
+		      } else {
+		         $this->Session->setFlash('Your username/password was incorrect');
+		      }
+		   }
+		}
+
+		public function logout()
+		{
+		   $this->redirect($this->Auth->logout());
+		}
    }
 ?>

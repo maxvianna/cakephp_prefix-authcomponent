@@ -53,5 +53,14 @@
 			$this->invalidate('password_confirmation', 'Your passwords do not match');
 			return FALSE;
 		}
+
+		public function beforeSave($options = array())
+       {
+           if(isset($this->data['User']['password']))
+           {
+               $this->data['User']['password'] = AuthComponent::password($this->data['User']['password']);  
+           }  
+         return TRUE;
+       }
    }
 ?>

@@ -46,7 +46,15 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		</div>
 		<?php echo $this->element('menu', array('class' => 'menu-superior')) ?>
 		<div id="content">
-
+			<!-- AuthComponent -->
+			<div style="text-align: right">
+				<?php if($logged_in): ?>
+					Welcome <?php echo $current_user['username']; ?>! - <?php echo $this->Html->link('Logout', array('controller' => 'users', 'action' => 'logout')); ?>
+				<?php else: ?>
+					<?php echo $this->Html->link('Login', array('controller' => 'users', 'action' => 'login')); ?>
+				<?php endif; ?>	
+			</div>
+			<!-- End of AuthComponent -->
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $this->fetch('content'); ?>
